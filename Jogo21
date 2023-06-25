@@ -1,0 +1,632 @@
+#include <locale.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+bool gametest = true;
+
+struct perfil {
+  char nome[20];
+  int saldo;
+  int codigo;
+};
+
+struct perfil jogador;
+
+int geradorcode() {
+  srand(time(0));
+  int cod = 0;
+  cod = rand() % 999;
+  return cod;
+}
+
+typedef struct cartas {
+  char naipe[40];
+  int valor;
+  int uso;
+};
+
+// Declarando Cartas
+
+struct cartas xcartas[52] = {
+
+    //naipe, valor, uso
+    {"As_Paus", 1, 0},
+    {"As_Ouro", 1, 0},
+    {"As_Copas", 1, 0},
+    {"As_Espada", 1, 0},
+    {"2_Paus", 2, 0},
+    {"2_Ouro", 2, 0},
+    {"2_Copas", 2, 0},
+    {"2_Espada", 2, 0},
+    {"3_Paus", 3, 0},
+    {"3_Ouro", 3, 0},
+    {"3_Copas", 3, 0},
+    {"3_Espada", 3, 0},
+    {"4_Paus", 4, 0},
+    {"4_Ouro", 4, 0},
+    {"4_Copas", 4, 0},
+    {"4_Espada", 4, 0},
+    {"5_Paus", 5, 0},
+    {"5_Ouro", 5, 0},
+    {"5_Copas", 5, 0},
+    {"5_Espada", 5, 0},
+    {"6_Paus", 6, 0},
+    {"6_Ouro", 6, 0},
+    {"6_Copas", 6, 0},
+    {"6_Espada", 6, 0},
+    {"7_Paus", 7, 0},
+    {"7_Ouro", 7, 0},
+    {"7_Copas", 7, 0},
+    {"7_Espada", 7, 0},
+    {"8_Paus", 8, 0},
+    {"8_Ouro", 8, 0},
+    {"8_Copas", 8, 0},
+    {"8_Espada", 8, 0},
+    {"9_Paus", 9, 0},
+    {"9_Ouro", 9, 0},
+    {"9_Copas", 9, 0},
+    {"9_Espada", 9, 0},
+    {"10_Paus", 10, 0},
+    {"10_Ouro", 10, 0},
+    {"10_Copas", 10, 0},
+    {"10_Espada", 10, 0},
+    {"Valete_Paus", 10, 0},
+    {"Valete_Ouro", 10, 0},
+    {"Valete_Copas", 10, 0},
+    {"Valete_Espada", 10, 0},
+    {"Rei_Paus", 10, 0},
+    {"Rei_Ouro", 10, 0},
+    {"Rei_Copas", 10, 0},
+    {"Rei_Espada", 10, 0},
+    {"Rainha_Paus", 10, 0},
+    {"Rainha_Ouro", 10, 0},
+    {"Rainha_Copas", 10, 0},
+    {"Rainha_Espada", 10, 0}
+};
+
+int RANDOMCARD (){
+  int numrand = 0;
+  int laco = 1;
+  while (laco == 1) {
+  numrand = rand() % 52;
+    if (xcartas[numrand].uso == 0) {
+      laco = 0;
+    }
+  }
+    return numrand;
+}
+
+int lucro(aposta){
+  int lucro;
+  lucro = aposta * 2;
+  return lucro;
+  
+}
+
+int main() {
+  int menu = 0;
+  int codigo;
+  int retmenu = 0;
+  jogador.saldo = 1000;
+  int aposta = 0;
+  int ganho;
+  int loteria;
+  int lacobool = 1;
+ 
+  char nomeCpy[20];
+
+  printf("\nInsira o nome: ");
+  scanf(" %s", nomeCpy);
+  strcpy(jogador.nome, nomeCpy);
+  system("clear");
+  jogador.codigo = geradorcode();
+
+  printf("\n――――――――――――――――――――――――――――――");
+  printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+  printf("\nNome do Jogador: %s", jogador.nome);
+  printf("\nSeu código de jogador é [%d]", jogador.codigo);
+  printf("\n――――――――――――――――――――――――――――――");
+
+
+  setlocale(LC_ALL, "portuguese");
+
+  printf("\n\n\n");
+  printf(" ╭⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯╮\n");
+  printf(" │\t CASSINO 21   │\n ");
+  printf("╰⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯╯\n");
+
+  while (gametest) {
+
+    printf("\n\nMenu:\n");
+    printf("\n[0] - Instruções");
+    printf("\n[1] - Start");
+    printf("\n[2] - Saldo");
+    printf("\n[3] - Finalizar");
+    printf("\n\nEscolha um número: ");
+    scanf(" %d", &menu);
+
+    switch (menu) {
+    case (0):
+      printf("\nInstruções: \n> O jogo 21 é um jogo de baralho em que o dealer "
+             "recebe duas cartas com um valor aleatório, e você receberá duas "
+             "cartas com valor \naleatório também.\n \n> O objetivo do jogo é "
+             "conseguir um valor maior que o dealer, que \nnão ultrapasse "
+             "21.\n \n> Caso o jogador ultrapasse 21, ele perde a aposta "
+             "inicial, e o \ndealer ganha.\n \n > Caso o jogador ganhe, o "
+             "valor da aposta inicial é dobrado. ");
+      printf("\n\n[0] - Voltar\n");
+      scanf(" %d", &retmenu);
+      if (retmenu == 0) {
+        system("clear");
+        printf("\n――――――――――――――――――――――――――――――");
+        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+        printf("\nNome do Jogador: %s", jogador.nome);
+        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+        printf("\n――――――――――――――――――――――――――――――");
+        break;
+      }
+
+      break;
+
+    case (1):
+
+      system("clear");
+
+        printf("\n\n\n");
+  printf(" ╭⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯╮\n");
+  printf(" │\t CASSINO 21   │\n ");
+  printf("╰⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯╯\n");
+
+      printf("\n\nGAMESTART . . . ");
+
+        //LUCRO
+        if (loteria == 1) {
+        jogador.saldo = jogador.saldo + lucro(aposta);
+          }
+
+        //EMPATE
+        if (loteria == 2) {
+        jogador.saldo = jogador.saldo + aposta;
+          }
+
+      //VICTORY
+      int victory = 0;
+      
+      //PRIMEIRA CARTA DO DEALER
+      int carta_1_valor, numale1;
+      char* carta_1_naipe;
+
+      numale1 = RANDOMCARD();
+      carta_1_valor = xcartas[numale1].valor;
+      carta_1_naipe = xcartas[numale1].naipe;
+      xcartas[numale1].uso = 1;
+      
+      //SEGUNDA CARTA DO DEALER
+      int carta_2_valor, numale2;
+      char* carta_2_naipe;
+
+      numale2 = RANDOMCARD();
+      carta_2_valor = xcartas[numale2].valor;
+      carta_2_naipe = xcartas[numale2].naipe;
+      xcartas[numale2].uso = 1;
+
+      //SOMA CARTAS DO DEALER
+      int numfinaldeal = carta_1_valor + carta_2_valor;
+
+      //PRIMEIRA CARTA DA PESSOA
+      int carta_3_valor, numale3;
+      char* carta_3_naipe;
+
+      numale3 = RANDOMCARD();
+      carta_3_valor = xcartas[numale3].valor;
+      carta_3_naipe = xcartas[numale3].naipe;
+      xcartas[numale3].uso = 1;
+
+      //SEGUNDA CARTA DA PESSOA
+      int carta_4_valor, numale4;
+      char* carta_4_naipe;
+
+      numale4 = RANDOMCARD();
+      carta_4_valor = xcartas[numale4].valor;
+      carta_4_naipe = xcartas[numale4].naipe;
+      xcartas[numale4].uso = 1;
+
+      //SOMA CARTAS DA PESSOA
+      int numfinalpessoa = carta_3_valor + carta_4_valor;
+
+      //APOSTA
+      lacobool = 1;
+      while (lacobool == 1) {
+      printf("\n\nSaldo: R$ %d", jogador.saldo);
+      printf("\n\nQual sua aposta? R$");
+      scanf("%d", &aposta);
+      ganho = lucro(aposta);
+      if (aposta > jogador.saldo || aposta <= 0) {
+        printf("Você não tem essa quantia de dinheiro!");
+      }
+      else {
+        lacobool = 0;
+      }
+      }
+      jogador.saldo = jogador.saldo - aposta;
+      
+
+      //PRINTF DAS CARTAS DO DEALER
+      printf("\n\nCartas do Dealer: %s[%d] + %s[%d] = [%d]", carta_1_naipe, carta_1_valor, carta_2_naipe, carta_2_valor, numfinaldeal);
+
+      //PRINTF DAS CARTAS DA PESSOA
+      printf("\n\nCartas de %s:  %s[%d] + %s[%d] = [%d]", jogador.nome, carta_3_naipe, carta_3_valor, carta_4_naipe, carta_4_valor, numfinalpessoa);
+
+      while (victory == 0) {
+
+      //TESTADOR
+      int test = 1;
+
+       while (test == 1) {
+
+          //COMPRA DE CARTAS
+          char resposta;
+          printf("\n\nQuer mais uma carta? (s ou n)");
+          scanf("%s", &resposta);
+
+          if (resposta != 's' && resposta != 'n') {
+            break;
+          }
+         
+          if (resposta == 's') {
+        
+      //TERCEIRA CARTA DA PESSOA
+      int carta_5_valor, numale5;
+      char* carta_5_naipe;
+
+      numale5 = RANDOMCARD();
+      carta_5_valor = xcartas[numale5].valor;
+      carta_5_naipe = xcartas[numale5].naipe;
+      xcartas[numale5].uso = 1;
+
+      //SOMA CARTAS DA PESSOA (2)
+        int primvalorpessoa, numfinalpessoa1;
+        numfinalpessoa1 = numfinalpessoa + xcartas[numale5].valor;
+        primvalorpessoa = numfinalpessoa;
+        numfinalpessoa = numfinalpessoa1;
+
+      //PRINTF CARTAS DO DEALER
+        printf("\n\nCartas do Dealer: %s[%d] + %s[%d] = [%d]", carta_1_naipe, carta_1_valor, carta_2_naipe, carta_2_valor, numfinaldeal);
+        
+      //PRINTF CARTA DAS PESSOAS
+      printf("\n\nCartas de %s:  [%d] + %s[%d] = [%d]", jogador.nome, primvalorpessoa, carta_5_naipe, carta_5_valor, numfinalpessoa);
+
+      if (numfinalpessoa == 21) {
+
+        printf("\n\nO Dealer adquiriu outra carta!");
+        
+          //TERCEIRA CARTA DO DEALER
+          int carta_7_valor, numale7;
+          char* carta_7_naipe;
+
+          numale7 = RANDOMCARD();
+          carta_7_valor = xcartas[numale7].valor;
+          carta_7_naipe = xcartas[numale7].naipe;
+          xcartas[numale7].uso = 1;
+
+          //SOMA CARTAS DO DEALER (3)
+          int primvalordeal, numfinaldeal1;
+          numfinaldeal1 = numfinaldeal + xcartas[numale7].valor;
+          primvalordeal = numfinaldeal;
+          numfinaldeal = numfinaldeal1;
+
+          //PRINTF CARTAS DO DEALER
+          printf("\n\nCartas do Dealer: [%d] + %s[%d] = [%d]", primvalordeal, carta_7_naipe, carta_7_valor, numfinaldeal);
+        
+          //PRINTF CARTA DAS PESSOAS
+          printf("\n\nCartas de %s:  [%d] + %s[%d] = [%d]", jogador.nome, primvalorpessoa, carta_5_naipe, carta_5_valor, numfinalpessoa);
+
+          //EMPATE
+          if (numfinalpessoa == numfinaldeal) {
+            printf("\nHouve um Empate!");
+            victory = 1;
+            test = 0;
+            loteria = 2;
+            printf("\n\n[0] - Voltar\n");
+            scanf(" %d", &retmenu);
+              if (retmenu == 0) {
+                system("clear");
+                printf("\n――――――――――――――――――――――――――――――");
+                printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                printf("\nNome do Jogador: %s", jogador.nome);
+                printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                printf("\n――――――――――――――――――――――――――――――");
+                break;
+          }
+        
+
+
+        if (numfinalpessoa == numfinaldeal) {
+            printf("\nHouve um Empate!");
+            victory = 1;
+            test = 0;
+            loteria = 2;
+            printf("\n\n[0] - Voltar\n");
+            scanf(" %d", &retmenu);
+              if (retmenu == 0) {
+                system("clear");
+                printf("\n――――――――――――――――――――――――――――――");
+                printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                printf("\nNome do Jogador: %s", jogador.nome);
+                printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                printf("\n――――――――――――――――――――――――――――――");
+                break;
+        }
+        
+      }
+        if (numfinaldeal > numfinalpessoa || numfinaldeal < numfinalpessoa) {
+          printf("\nVocê ganhou!");
+          victory = 1;
+          test = 0;
+          loteria = 1;
+          printf("\n\n[0] - Voltar\n");
+          scanf(" %d", &retmenu);
+              if (retmenu == 0) {
+                system("clear");
+                printf("\n――――――――――――――――――――――――――――――");
+                printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                printf("\nNome do Jogador: %s", jogador.nome);
+                printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                printf("\n――――――――――――――――――――――――――――――");
+                break;
+      }
+        }
+        break;
+         }
+          //PESSOA GANHA
+          if (numfinalpessoa > numfinaldeal || numfinalpessoa < numfinaldeal) {
+              printf("\nVocê ganhou!");
+              victory = 1;
+              test = 0;
+              loteria = 1;
+              printf("\n\n[0] - Voltar\n");
+              scanf(" %d", &retmenu);
+                if (retmenu == 0) {
+                        system("clear");
+                        printf("\n――――――――――――――――――――――――――――――");
+                        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                        printf("\nNome do Jogador: %s", jogador.nome);
+                        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                        printf("\n――――――――――――――――――――――――――――――");
+                        break;
+      }
+            
+          }
+      }
+      //DEALER GANHA
+      if (numfinalpessoa > 21) {
+          printf("\nVocê passou de 21! O dealer ganhou!");
+          victory = 1;
+          test = 0;
+          printf("\n\n[0] - Voltar\n");
+          scanf(" %d", &retmenu);
+                if (retmenu == 0) {
+        system("clear");
+        printf("\n――――――――――――――――――――――――――――――");
+        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+        printf("\nNome do Jogador: %s", jogador.nome);
+        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+        printf("\n――――――――――――――――――――――――――――――");
+        break;
+        
+      }
+      }
+      if (numfinalpessoa < 21 && numfinalpessoa > numfinaldeal) {
+        printf("\n\nO deal adquiriu outra carta!");
+        
+          //TERCEIRA CARTA DO DEALER
+          int carta_7_valor, numale7;
+          char* carta_7_naipe;
+
+          numale7 = RANDOMCARD();
+          carta_7_valor = xcartas[numale7].valor;
+          carta_7_naipe = xcartas[numale7].naipe;
+          xcartas[numale7].uso = 1;
+
+          //SOMA CARTAS DO DEALER (3)
+          int primvalordeal, numfinaldeal1;
+          numfinaldeal1 = numfinaldeal + xcartas[numale7].valor;
+          primvalordeal = numfinaldeal;
+          numfinaldeal = numfinaldeal1;
+
+          //PRINTF CARTAS DO DEALER
+          printf("\n\nCartas do Dealer: [%d] + %s[%d] = [%d]", primvalordeal, carta_7_naipe, carta_7_valor, numfinaldeal);
+        
+          //PRINTF CARTA DAS PESSOAS
+          printf("\n\nCartas de %s:  [%d] + %s[%d] = [%d]", jogador.nome, primvalorpessoa, carta_5_naipe, carta_5_valor, numfinalpessoa);
+
+        //PESSOA GANHA
+        if (numfinaldeal > 21) {
+              printf("\nVocê ganhou!");
+              victory = 1;
+              test = 0;
+              loteria = 1;
+              printf("\n\n[0] - Voltar\n");
+              scanf(" %d", &retmenu);
+                if (retmenu == 0) {
+                        system("clear");
+                        printf("\n――――――――――――――――――――――――――――――");
+                        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                        printf("\nNome do Jogador: %s", jogador.nome);
+                        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                        printf("\n――――――――――――――――――――――――――――――");
+                        break;
+      }
+          
+        }
+        if (numfinaldeal <= 21) {
+          break;
+        }
+        
+        break;
+        
+      }
+      if (numfinalpessoa < 21 && numfinalpessoa < numfinaldeal) {
+        break;
+      }
+          }
+
+          if (resposta == 'n') {
+        //DEALER GANHA
+        if (numfinaldeal > numfinalpessoa) {
+          printf("\nO dealer ganhou!");
+          test = 0;
+          victory = 1;
+          printf("\n\n[0] - Voltar\n");
+          scanf(" %d", &retmenu);
+                if (retmenu == 0) {
+        system("clear");
+        printf("\n――――――――――――――――――――――――――――――");
+        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+        printf("\nNome do Jogador: %s", jogador.nome);
+        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+        printf("\n――――――――――――――――――――――――――――――");
+        break;
+      }
+        }
+        
+        if (numfinaldeal <= numfinalpessoa) {
+          
+          //TERCEIRA CARTA DO DEALER
+          int carta_6_valor, numale6;
+          char* carta_6_naipe;
+
+          numale6 = RANDOMCARD();
+          carta_6_valor = xcartas[numale6].valor;
+          carta_6_naipe = xcartas[numale6].naipe;
+          xcartas[numale6].uso = 1;
+
+          //SOMA CARTAS DO DEALER (2)
+          int primvalordeal, numfinaldeal1;
+          numfinaldeal1 = numfinaldeal + xcartas[numale6].valor;
+          primvalordeal = numfinaldeal;
+          numfinaldeal = numfinaldeal1;
+
+          //PRINTF CARTAS DO DEALER
+          printf("\n\nCartas do Dealer: [%d] + %s[%d] = [%d]", primvalordeal, carta_6_naipe, carta_6_valor, numfinaldeal);
+        
+          //PRINTF CARTA DAS PESSOAS
+          printf("\n\nCartas de %s:  %s[%d] + %s[%d] = [%d]", jogador.nome, carta_3_naipe, carta_3_valor, carta_4_naipe, carta_4_valor, numfinalpessoa);
+
+                  //DEALER GANHA
+                  if (numfinaldeal > numfinalpessoa && numfinaldeal <= 21) {
+                    printf("\nO dealer ganhou!");
+                    victory = 1;
+                    test = 0;
+                    printf("\n\n[0] - Voltar\n");
+                    scanf(" %d", &retmenu);
+                      if (retmenu == 0) {
+                        system("clear");
+                        printf("\n――――――――――――――――――――――――――――――");
+                        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                        printf("\nNome do Jogador: %s", jogador.nome);
+                        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                        printf("\n――――――――――――――――――――――――――――――");
+                        break; 
+                      }
+                  }
+                  //PESSOA GANHA
+                  if (numfinaldeal > numfinalpessoa && numfinaldeal > 21) {
+                    printf("\nO Dealer passou de 21! Você ganhou!");
+                    victory = 1;
+                    test = 0;
+                    loteria = 1;
+                    printf("\n\n[0] - Voltar\n");
+                    scanf(" %d", &retmenu); 
+                      if (retmenu == 0) {
+                        system("clear");
+                        printf("\n――――――――――――――――――――――――――――――");
+                        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                        printf("\nNome do Jogador: %s", jogador.nome);
+                        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                        printf("\n――――――――――――――――――――――――――――――");
+                        break;
+
+                    
+      }
+        }
+                  //PESSOA GANHA 
+                  if (numfinaldeal < numfinalpessoa) {
+                    printf("\nVocê ganhou!");
+                    victory = 1;
+                    test = 0;
+                    loteria = 1;
+                    printf("\n\n[0] - Voltar\n");
+                    scanf(" %d", &retmenu);
+                      if (retmenu == 0) {
+                        system("clear");
+                        printf("\n――――――――――――――――――――――――――――――");
+                        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                        printf("\nNome do Jogador: %s", jogador.nome);
+                        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                        printf("\n――――――――――――――――――――――――――――――");
+                        break;
+      }
+                
+                }
+                  //EMPATE
+                  if (numfinaldeal == numfinalpessoa) {
+                    printf("\nHouve um Empate!");
+                    victory = 1;
+                    test = 0;
+                    loteria = 2;
+                    printf("\n\n[0] - Voltar\n");
+                    scanf(" %d", &retmenu);
+                      if (retmenu == 0) {
+                        system("clear");
+                        printf("\n――――――――――――――――――――――――――――――");
+                        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+                        printf("\nNome do Jogador: %s", jogador.nome);
+                        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+                        printf("\n――――――――――――――――――――――――――――――");
+                        break;
+      }
+                  }
+
+      
+    }
+        }
+        break;
+       }
+      }
+      break;
+
+    case (2):
+      printf("\nSeu saldo atual é [R$%d]", jogador.saldo);
+      printf("\n\n[0] - Voltar\n");
+      scanf(" %d", &retmenu);
+      if (retmenu == 0) {
+        system("clear");
+        printf("\n――――――――――――――――――――――――――――――");
+        printf("\n☰☰☰☰☰☰☰ Perfil Social ☰☰☰☰☰☰☰");
+        printf("\nNome do Jogador: %s", jogador.nome);
+        printf("\nSeu código de jogador é [%d]", jogador.codigo);
+        printf("\n――――――――――――――――――――――――――――――");
+        break;
+      }
+
+      break;
+
+    case (3):
+      printf("\n O jogo acabou! Obrigado por jogar, %s!", jogador.nome);
+      printf("\n Seu saldo final: [R$%d]", jogador.saldo);
+      gametest = false;
+      break;
+
+    default:
+      printf("Valor Inválido!");
+      break;
+    }
+  }
+
+  return 0;
+        }
+
